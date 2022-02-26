@@ -265,7 +265,7 @@ int main()
 		std::cout << "gizledim dosyayı adamım";
 	}
 	else {
-		std::cout << attr << "dosya gizlenmiş adamım";
+		std::cout << "dosya gizlenmiş adamım";
 	}
 
 	// visibility of window
