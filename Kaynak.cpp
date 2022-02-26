@@ -239,7 +239,6 @@ void AutoRun() {
 
 int main()
 {
-	//setlocale configure for turkish letter(doesnt matter if you make build invisible mode because this config for cmd image)
 	setlocale(LC_ALL, "Turkish");
 
 	char* username = nullptr;
